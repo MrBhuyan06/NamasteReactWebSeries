@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client.js";
-
 // React Element => js(object)=> dom(html)
 //React.CreateElement => object  => render in to dom change int ot HTML element
 
