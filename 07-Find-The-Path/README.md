@@ -39,3 +39,9 @@
 - -Address
 - -Contact
   \*/
+
+# 2 type Routing in web apps
+
+- client Side Routing
+- server Side Router
+-

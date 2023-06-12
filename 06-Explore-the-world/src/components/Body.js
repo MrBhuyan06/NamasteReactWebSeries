@@ -4,7 +4,7 @@ import { restrautList } from "../utils/mockdata.js";
 import { useState } from "react";
 
 const Body = () => {
-  //   const listOfRestaurentsjs = [
+    // const listOfRestaurentsjs = [
   //     {
   //       data: {
   //         type: "F",

@@ -1,75 +1,57 @@
 //Config Driven UI
 import RestaurentCard from "./RestaurentCard.js";
 import { restrautList } from "../utils/mockdata.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { LIST_RES } from "../utils/constants.js";
+import Shimmer from "./Shimmer.js";
+
+function SerchRestaurent(search, listofRes) {
+  const searchRes = listofRes.filter((res) => {
+    return res.data.name.toLowerCase().includes(search.toLowerCase());
+  });
+  return searchRes;
+}
 
 const Body = () => {
-  //   const listOfRestaurentsjs = [
-  //     {
-  //       data: {
-  //         type: "F",
-  //         id: "73011",
-  //         name: "KFC",
-  //         uuid: "27ff4155-fe46-418e-9862-ab98953bf953",
-  //         city: "22",
-  //         lastMileTravelString: "23km",
-  //         totalRatingsString: "5000+ ratings",
-  //         cloudinaryImageId: "bdcd233971b7c81bf77e1fa4471280eb",
-  //         cuisines: ["American", "Snacks", "Biryani"],
-  //         avgRating: "4.5",
-  //         costForTwo: 30000,
-  //         costForTwoString: "₹300 FOR TWO",
-  //         deliveryTime: 31,
-  //         minDeliveryTime: 31,
-  //         maxDeliveryTime: 31,
-  //       },
-  //     },
-  //     {
-  //       data: {
-  //         type: "F",
-  //         id: "7301",
-  //         name: "Go Foodtion",
-  //         uuid: "27ff4155-fe46-418e-9862-ab98953bf953",
-  //         city: "22",
-  //         lastMileTravelString: "23km",
-  //         totalRatingsString: "5000+ ratings",
-  //         cloudinaryImageId: "bdcd233971b7c81bf77e1fa4471280eb",
-  //         cuisines: ["American", "Snacks", "Biryani"],
-  //         avgRating: "3",
-  //         costForTwo: 30000,
-  //         costForTwoString: "₹300 FOR TWO",
-  //         deliveryTime: 31,
-  //         minDeliveryTime: 31,
-  //         maxDeliveryTime: 31,
-  //       },
-  //     },
-  //     {
-  //       data: {
-  //         type: "F",
-  //         id: "7301233",
-  //         name: "MD",
-  //         uuid: "27ff4155-fe46-418e-9862-ab98953bf953",
-  //         city: "22",
-  //         lastMileTravelString: "23km",
-  //         totalRatingsString: "5000+ ratings",
-  //         cloudinaryImageId: "bdcd233971b7c81bf77e1fa4471280eb",
-  //         cuisines: ["American", "Snacks", "Biryani"],
-  //         avgRating: "4.8",
-  //         costForTwo: 30000,
-  //         costForTwoString: "₹300 FOR TWO",
-  //         deliveryTime: 31,
-  //         minDeliveryTime: 31,
-  //         maxDeliveryTime: 31,
-  //       },
-  //     },
-  //   ];
-  //State Variable Super Powerful Variable
-  const [listofRestaurents, setListOfRestaurent] = useState(restrautList);
+  const [searchTxt, setSearchTxt] = useState("");
+  const { resId } = useParams();
+  const [listofRestaurents, setListOfRestaurent] = useState([]);
+  const [filerlistofRestaurents, setFilterListOfRestaurent] = useState([]);
+  // const [fileravglistofRestaurents, setFilterAvgListOfRestaurent] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  return (
+  async function fetchData() {
+    const data = await fetch(
+      " https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.952083&lng=77.7079919&sortBy=RELEVANCE&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    console.log(json);
+    setListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
+    setFilterListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
+  }
+  return listofRestaurents.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
       <div className="search ">
-        <input type="text" />
+        <input
+          type="text"
+          value={searchTxt}
+          onChange={(e) => {
+            setSearchTxt(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            const searchResData = SerchRestaurent(searchTxt, listofRestaurents);
+            setFilterListOfRestaurent(searchResData);
+          }}
+        >
+          search
+        </button>
         <button
           onDoubleClick={() => {
             setListOfRestaurent(restrautList);
@@ -79,19 +61,27 @@ const Body = () => {
             console.log("btn click");
             // Filter logic here
             const filetrAvg = listofRestaurents.filter((res) => {
-              return res.data.avgRating > 4;
+              return res.data.avgRating > 4.5;
             });
             // console.log(listOfRestaurents);
-            setListOfRestaurent(filetrAvg);
+            setFilterListOfRestaurent(filetrAvg);
           }}
         >
           Top Rated Restaurent
         </button>
       </div>
       <div className="res-container">
-        {listofRestaurents.map((res, index) => {
-          return <RestaurentCard {...res.data} key={res.data.id} />;
-        })}
+        {filerlistofRestaurents.length === 0 ? (
+          <p>OOPS No Restaurent Found</p>
+        ) : (
+          filerlistofRestaurents.map((res, index) => {
+            return (
+              <Link key={res.data.id} to={`/restaurant/${res.data.id}`}>
+                <RestaurentCard {...res.data} />
+              </Link>
+            );
+          })
+        )}
         {/* <RestaurentCard resData={restrautList[0]} />
           <RestaurentCard resData={restrautList[1]} />
           <RestaurentCard resData={restrautList[2]} />

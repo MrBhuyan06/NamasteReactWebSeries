@@ -44,7 +44,8 @@ body {
   min-height: 70vh;
   padding: 1rem;
 }
-.res-container {
+.res-container,
+.shimmer-list {
   width: 100%;
 
   display: flex;
@@ -52,12 +53,13 @@ body {
 
   /* margin: 0 auto; */
   border: 1px solid red;
-  /* justify-content: center; */
+  justify-content: center;
   /* align-content: flex-start; */
   align-items: center;
   flex-wrap: wrap;
 }
-.res-card {
+.res-card,
+.shimmer-card {
   margin-top: 1rem;
   /* max-width: 250px; */
   /* min-width: 200px; */
