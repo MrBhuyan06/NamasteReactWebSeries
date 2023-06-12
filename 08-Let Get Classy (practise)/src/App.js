@@ -8,6 +8,7 @@ import Contact from "./components/Contact.js";
 import ErrorElement from "./components/ErrorElement.js";
 import Footer from "./components/Footer.js";
 import ResTaurantMenu from "./components/RestaurantMenu.js";
+import Profile from "./components/Profile.js";
 //  style take a js object
 // style={{
 //   backgroundColor: "#f0f0f0",
@@ -42,6 +43,12 @@ const appRouter = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+        children: [
+          {
+            path: "profile/:pid", // take the relative path of his parent
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: "/contact",
