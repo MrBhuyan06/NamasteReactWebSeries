@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client.js";
 import Header from "./components/Header.js";
 import Body from "./components/Body.js";
@@ -9,10 +9,13 @@ import ErrorElement from "./components/ErrorElement.js";
 import Footer from "./components/Footer.js";
 import ResTaurantMenu from "./components/RestaurantMenu.js";
 import Profile from "./components/Profile.js";
+import Shimmer from "./components/Shimmer.js";
+
 //  style take a js object
 // style={{
 //   backgroundColor: "#f0f0f0",
 // }}
+const SwiggyMart = lazy(() => import("./components/SwiggyMart.js"));
 
 // Top Level Component
 const AppLayout = () => {
@@ -57,6 +60,14 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <ResTaurantMenu />,
+      },
+      {
+        path: "/swiggymart",
+        element: (
+          <Suspense fallback={<Shimmer />}>
+            <SwiggyMart />
+          </Suspense>
+        ),
       },
     ],
   },
