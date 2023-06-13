@@ -6,26 +6,38 @@ import { Link, useParams } from "react-router-dom";
 import { LIST_RES } from "../utils/constants.js";
 import Shimmer from "./Shimmer.js";
 import { SerchRestaurent } from "../utils/helper.js";
+import useOnline from "../utils/useOnline.js";
+import UseListRestaurent from "../utils/UseListRestaurent.js";
 
 const Body = () => {
   const [searchTxt, setSearchTxt] = useState("");
   const { resId } = useParams();
-  const [listofRestaurents, setListOfRestaurent] = useState([]);
-  const [filerlistofRestaurents, setFilterListOfRestaurent] = useState([]);
+  // const [listofRestaurents, setListOfRestaurent] = useState([]);
+  // const [filerlistofRestaurents, setFilterListOfRestaurent] = useState([]);
   // const [fileravglistofRestaurents, setFilterAvgListOfRestaurent] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-  async function fetchData() {
-    const data = await fetch(
-      " https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.952083&lng=77.7079919&sortBy=RELEVANCE&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    console.log(json);
-    setListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
-    setFilterListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
+  // async function fetchData() {
+  //   const data = await fetch(
+  //     " https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.952083&lng=77.7079919&sortBy=RELEVANCE&page_type=DESKTOP_WEB_LISTING"
+  //   );
+  //   const json = await data.json();
+  //   console.log(json);
+  //   setListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
+  //   setFilterListOfRestaurent(json?.data.cards[2]?.data?.data?.cards);
+  // }
+
+  const [listofRestaurents, filerlistofRestaurents] = UseListRestaurent();
+
+  const isOnline = useOnline();
+  console.log(isOnline);
+  // isOnline ? <h1>🟢Your are online</h1> :
+  if (!isOnline) {
+    return <h1>🔴 u are offline</h1>;
   }
+
   return listofRestaurents.length === 0 ? (
     <Shimmer />
   ) : (

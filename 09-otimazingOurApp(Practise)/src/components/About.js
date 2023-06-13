@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ProfileFun from "./Profile.js";
 import ProfileClass from "./ProfileClass.js";
+import useOnline from "../utils/useOnline.js";
 class About extends React.Component {
   constructor(props) {
     super(props);

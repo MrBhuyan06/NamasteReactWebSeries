@@ -8,8 +8,10 @@ const ResTaurantMenu = () => {
   console.log(resId);
 
   const resInfo = useRestaurent(resId);
+  console.log(resInfo);
 
   if (resInfo === null) {
+    console.log("log shimmer");
     return <Shimmer />;
   }
   const {

@@ -19,6 +19,7 @@ const useRestaurent = (resId) => {
     console.log(json);
     setRestaurentInfo(json?.data);
   };
+  console.log(restaurentInfo);
 
   //Return The restaurentminu Details
   return restaurentInfo;
