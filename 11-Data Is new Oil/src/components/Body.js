@@ -5,10 +5,13 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper.js";
 import useOnline from "../hooks/useOnline.js";
+import { WithPromotedTag } from "./RestaurantCard";
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const RestaurentCardPromoted = WithPromotedTag(<RestaurantCard />);
+  console.log(allRestaurants);
 
   useEffect(() => {
     getRestaurants();
@@ -65,7 +68,11 @@ const Body = () => {
               to={"/restaurant/" + restaurant.data.id}
               key={restaurant.data.id}
             >
-              <RestaurantCard {...restaurant.data} />
+              {restaurant.data.promoted ? (
+                <RestaurentCardPromoted resdata={restaurant.data} />
+              ) : (
+                <RestaurantCard {...restaurant.data} />
+              )}
             </Link>
           );
         })}
