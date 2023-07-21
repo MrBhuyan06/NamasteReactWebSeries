@@ -11,7 +11,7 @@ const Body = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const RestaurentCardPromoted = WithPromotedTag(<RestaurantCard />);
-  console.log(allRestaurants);
+  // console.log(allRestaurants);
 
   useEffect(() => {
     getRestaurants();
@@ -26,7 +26,7 @@ const Body = () => {
     setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
   }
   const offline = useOnline();
-  console.log(offline);
+  // console.log(offline);
   if (!offline) {
     return <h1>OOpps u are offline</h1>;
   }

@@ -19,7 +19,7 @@ const RestrauntCard = ({
 export const WithPromotedTag = (RestaurantCard) => {
   return (props) => {
     const { resdata } = props;
-    console.log(resdata);
+    // console.log(resdata);
     return (
       <div className="relative">
         <label htmlFor="" className="absolute bg-red-500 rounded-lg p-1">
