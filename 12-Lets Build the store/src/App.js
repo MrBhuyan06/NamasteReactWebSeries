@@ -12,6 +12,9 @@ import RestaurantMenu from "./components/RestrauntMenu";
 import InstaMart from "./components/InstaMart.js";
 import { lazy, Suspense } from "react";
 import Shimmer from "./components/Shimmer.js";
+import { Provider } from "react-redux";
+import store from "./utils/store.js";
+import Carts from "./components/Carts.js";
 
 const instamart = lazy(() => import("./components/InstaMart.js"));
 console.log(instamart);
@@ -19,9 +22,11 @@ console.log(instamart);
 const AppLayout = () => {
   return (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <Provider store={store}>
+        <Header />
+        <Outlet />
+        <Footer />
+      </Provider>
     </>
   );
 };
@@ -46,6 +51,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Carts />,
       },
       {
         path: "/instamart",

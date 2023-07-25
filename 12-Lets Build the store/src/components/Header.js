@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import useOnline from "../hooks/useOnline.js";
 // SPA - Single Page Application???
 // Client Side Routing
-
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector.js";
+import store from "../utils/store.js";
 const Title = () => (
   <a href="/">
     <img className="w-20" alt="logo" src={Logo} />
@@ -12,6 +13,8 @@ const Title = () => (
 );
 
 const Header = () => {
+  //subscribbibg to the store using a Selelctor
+  const cart = useSelector((store) => store.cart.items);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const offline = useOnline();
   console.log(offline);
@@ -34,7 +37,9 @@ const Header = () => {
           <Link to="/instamart">
             <li>instamart</li>
           </Link>
-          <li>Cart</li>
+          <Link to="/cart">
+            <li>Cart{cart.length} item</li>
+          </Link>
         </ul>
       </div>
       {offline ? "✈️✈️✈️" : "offline"}
