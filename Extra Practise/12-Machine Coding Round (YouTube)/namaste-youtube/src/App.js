@@ -1,12 +1,29 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Head from "./componets/Head.js";
+import Body from "./componets/Body.js";
 
 function App() {
   return (
     <div className="App">
-      <h1>Namaste React</h1>
+      <Head />
+      <Body />
     </div>
   );
 }
+
+/**
+ * Head
+ * Body
+ *   sideBar
+ *      MenuItems
+ *   MainContainer
+ *     ButtonList
+ *     videoContainer
+ *       video card
+ *
+ *
+ *
+ */
 
 export default App;
