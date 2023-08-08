@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import store from "../utils/store.js";
+// import store from "../utils/store.js";
 
 const SideBar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
