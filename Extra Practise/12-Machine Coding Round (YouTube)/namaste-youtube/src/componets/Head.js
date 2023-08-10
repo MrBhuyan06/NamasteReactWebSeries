@@ -1,9 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice.js";
+import { SEARCH_SUGGESTION_API } from "../utils/contants.js";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
   const dispatch = useDispatch();
+  // console.log(suggestions.map((ele) => console.log(ele)));
+  // console.log(typeof suggestions);
+  //debuning
+  useEffect(() => {
+    //api call
+    //make an api call after ever key pree
+    const timer = setTimeout(() => {
+      searchSuggestions();
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+    };
+    //if the diff bet 2 aoi call < 200ms (decline the api call)
+  }, [searchQuery]);
+
+  /**
+   *key -i
+   * render the components
+   * useEffect();
+   * start timer => make api call after 200ms
+   *
+   * key -p
+   *  200> destroy the component(useEffect return methods)
+   * re-remder the components
+   * useEffect()
+   *
+   *
+   *
+   * setTimeout(200)
+   */
+
+  const searchSuggestions = async () => {
+    console.log("Api call- " + searchQuery);
+    const res = await fetch(SEARCH_SUGGESTION_API + searchQuery);
+    const data = await res.json();
+    // console.log(data[0]);
+    // setSearchQuery(data);
+    setSuggestions(data[1]);
+  };
+
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
@@ -33,11 +77,30 @@ const Head = () => {
           <input
             type="text"
             className=" w-1/2 p-2 rounded-l-full border-2 border-gray-200"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestion(true)}
+            onBlur={() => setShowSuggestion(false)}
           />
           <button className="border rounded-r-full bg-gray-400 border-gray-500 py-2 px-5">
             🔎
           </button>
         </div>
+        {showSuggestion && (
+          <div className="fixed border-2 rounded-lg  bg-white py-2 px-5 w-[34rem] mx-auto shadow-lg ">
+            <ul>
+              {suggestions.map((ele) => (
+                <li
+                  className="p-1 m-1 border-b-2 shadow-md cursor-pointer hover:bg-gray-400"
+                  key={ele}
+                >
+                  {" "}
+                  🔎{ele}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {/* 3 section */}
       <div className="col-span-1">
