@@ -68,3 +68,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Debouncing
+
+###slow=iphone(diff btw two key press 200ms)
+###fast=iphone(diff btw two key press 20ms)
+//if a user is type very fast the user in not need of imeidate result
+
+performance:
+
+- iphone pro max= 14 letter \* 1000=14000
+- Debouncing= 3 api call \* 1000=3000
+
+Debouncing with 200ms (diff btw the key press or stoke
+<200ms - DECLINE API CALL > 200ms make an api call)
