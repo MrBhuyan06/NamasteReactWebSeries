@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice.js";
 import { SEARCH_SUGGESTION_API } from "../utils/contants.js";
+import store from "../utils/store.js";
+import { cacheResults } from "../utils/searchSlice.js";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,11 +13,16 @@ const Head = () => {
   // console.log(suggestions.map((ele) => console.log(ele)));
   // console.log(typeof suggestions);
   //debuning
+  const searchCache = useSelector((store) => store.search);
   useEffect(() => {
     //api call
     //make an api call after ever key pree
     const timer = setTimeout(() => {
-      searchSuggestions();
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        searchSuggestions();
+      }
     }, 200);
     return () => {
       clearTimeout(timer);
@@ -46,6 +53,12 @@ const Head = () => {
     // console.log(data[0]);
     // setSearchQuery(data);
     setSuggestions(data[1]);
+    //update cache
+    dispatch(
+      cacheResults({
+        [searchQuery]: data[1],
+      })
+    );
   };
 
   const toggleMenuHandler = () => {
